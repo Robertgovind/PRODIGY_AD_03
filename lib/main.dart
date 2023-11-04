@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prodigy_ad_03/home.dart';
+import 'package:prodigy_ad_03/pages/home.dart';
 
 void main() {
   runApp(const MyApp());
