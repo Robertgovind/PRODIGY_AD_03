@@ -126,14 +126,21 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 40),
               child: Row(
                 children: [
-                  const Icon(Icons.arrow_back),
+                  const Icon(
+                    Icons.arrow_back,
+                    size: 30,
+                    color: Colors.white,
+                  ),
                   const SizedBox(
                     width: 45,
                   ),
                   Text(
                     'Stopwatch',
                     style: GoogleFonts.raleway(
-                        fontSize: 19, fontWeight: FontWeight.bold),
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 3,
+                        color: Colors.white),
                   ),
                 ],
               ),
@@ -183,6 +190,7 @@ class _HomeState extends State<Home> {
                               : () {
                                   startStopwatch();
                                 },
+                          logo: isStarted ? Icons.pause : Icons.play_arrow,
                         ),
                         ControlButton(
                           text: 'Reset',

@@ -14,7 +14,12 @@ class TimerContainer extends StatelessWidget {
       height: 65,
       width: 65,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12), color: Colors.black),
+        borderRadius: BorderRadius.circular(12),
+        color: const Color.fromARGB(255, 20, 6, 6),
+        boxShadow: const [
+          BoxShadow(color: Colors.blueAccent, blurRadius: 15),
+        ],
+      ),
       child: Center(
         child: Text(
           text,
