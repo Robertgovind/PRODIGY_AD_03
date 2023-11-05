@@ -150,7 +150,7 @@ class _HomeState extends State<Home> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 70),
+                    padding: const EdgeInsets.symmetric(horizontal: 55),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -204,17 +204,13 @@ class _HomeState extends State<Home> {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
+            const Padding(
+              padding: EdgeInsets.all(10.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  FloatingActionButton(
-                    onPressed: () {},
-                    child: const Text(
-                      '+',
-                      style: TextStyle(fontSize: 28),
-                    ),
+                  SizedBox(
+                    height: 50,
                   ),
                 ],
               ),
