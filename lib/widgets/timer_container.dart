@@ -12,7 +12,7 @@ class TimerContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 65,
-      width: 70,
+      width: 65,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12), color: Colors.black),
       child: Center(

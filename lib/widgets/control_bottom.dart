@@ -14,9 +14,7 @@ class ControlButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: ElevatedButton(
-        onPressed: () {
-          onPressed;
-        },
+        onPressed:onPressed,
         child: Text(
           text,
           style: GoogleFonts.raleway(fontSize: 18),
