@@ -15,43 +15,26 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   String sMinutes = '00';
   String sSeconds = '00';
-  String sMilisecond = '00';
+  String sHour = '00';
 
   int minutes = 0;
   int seconds = 0;
-  int miliseconds = 0;
+  int hour = 0;
 
   Timer? timer;
 
   bool isStarted = false;
 
   void startStopwatch() {
-    timer = Timer.periodic(const Duration(milliseconds: 1), (Timer) {
-      incrementMilisecond();
+    timer = Timer.periodic(const Duration(seconds: 1), (Timer) {
+      incrementSeconds();
       isStarted = true;
     });
   }
 
-  void incrementMilisecond() {
-    setState(() {
-      if (miliseconds < 99) {
-        miliseconds++;
-        sMilisecond = miliseconds.toString();
-      } else {
-        incrementSecond();
-      }
-
-      if (miliseconds < 10) {
-        sMilisecond = '0' + sMilisecond;
-      }
-    });
-  }
-
-  void incrementSecond() {
+  void incrementSeconds() {
     setState(() {
       if (seconds < 59) {
-        miliseconds = 0;
-        sMilisecond = '00';
         seconds++;
         sSeconds = seconds.toString();
       } else {
@@ -59,31 +42,48 @@ class _HomeState extends State<Home> {
       }
 
       if (seconds < 10) {
-        sSeconds = '0' + sSeconds;
+        sSeconds = '0$sSeconds';
       }
     });
   }
 
   void incrementMinutes() {
     setState(() {
-      if (seconds < 59) {
-        miliseconds = 0;
+      if (minutes < 59) {
         seconds = 0;
-        sMilisecond = '00';
         sSeconds = '00';
         minutes++;
-        sMinutes = minutes.toString();
+        sMinutes = sMinutes.toString();
       } else {
-        miliseconds = 0;
-        seconds = 0;
-        minutes = 0;
-        sMilisecond = '00';
-        sSeconds = '00';
-        sMinutes = '00';
+        incrementHour();
       }
 
-      if (minutes < 10) {
-        sMinutes = '0' + sMinutes;
+      if (seconds < 10) {
+        sMinutes = '0$sMinutes';
+      }
+    });
+  }
+
+  void incrementHour() {
+    setState(() {
+      if (hour < 59) {
+        seconds = 0;
+        minutes = 0;
+        sMinutes = '00';
+        sSeconds = '00';
+        hour++;
+        sHour = sHour.toString();
+      } else {
+        minutes = 0;
+        seconds = 0;
+        minutes = 0;
+        sMinutes = '00';
+        sSeconds = '00';
+        sHour = '00';
+      }
+
+      if (hour < 10) {
+        sHour = '0$sHour';
       }
     });
   }
@@ -91,10 +91,10 @@ class _HomeState extends State<Home> {
   void resetStopwatch() {
     setState(() {
       timer?.cancel();
-      miliseconds = 0;
+      hour = 0;
       seconds = 0;
       minutes = 0;
-      sMilisecond = '00';
+      sHour = '00';
       sSeconds = '00';
       sMinutes = '00';
       isStarted = false;
@@ -104,6 +104,7 @@ class _HomeState extends State<Home> {
   void pauseStopwatch() {
     timer?.cancel();
     isStarted = false;
+    setState(() {});
   }
 
   @override
@@ -155,6 +156,14 @@ class _HomeState extends State<Home> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         TimerContainer(
+                          text: sHour,
+                        ),
+                        const Text(
+                          ':',
+                          style: TextStyle(
+                              fontSize: 25, fontWeight: FontWeight.bold),
+                        ),
+                        TimerContainer(
                           text: sMinutes,
                         ),
                         const Text(
@@ -165,19 +174,11 @@ class _HomeState extends State<Home> {
                         TimerContainer(
                           text: sSeconds,
                         ),
-                        const Text(
-                          ':',
-                          style: TextStyle(
-                              fontSize: 25, fontWeight: FontWeight.bold),
-                        ),
-                        TimerContainer(
-                          text: sMilisecond,
-                        ),
                       ],
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 45),
+                    padding: const EdgeInsets.symmetric(horizontal: 45),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [

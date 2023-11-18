@@ -30,7 +30,8 @@ class ControlButton extends StatelessWidget {
               style: GoogleFonts.raleway(
                   fontSize: 19,
                   fontWeight: FontWeight.w500,
-                  color: Colors.white),
+                  color: Colors.white,
+                  letterSpacing: 2),
             ),
             Icon(
               logo,
