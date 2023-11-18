@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:prodigy_ad_03/widgets/control_bottom.dart';
@@ -13,28 +12,45 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  String sMinutes = '00';
+  String sMiliseconds = '00';
   String sSeconds = '00';
-  String sHour = '00';
+  String sMinutes = '00';
 
-  int minutes = 0;
+  int miliSeconds = 0;
   int seconds = 0;
-  int hour = 0;
+  int minutes = 0;
 
   Timer? timer;
 
   bool isStarted = false;
 
   void startStopwatch() {
-    timer = Timer.periodic(const Duration(seconds: 1), (Timer) {
-      incrementSeconds();
+    timer = Timer.periodic(const Duration(milliseconds: 10), (Timer) {
+      incrementMiliseconds();
       isStarted = true;
+    });
+  }
+
+  void incrementMiliseconds() {
+    setState(() {
+      if (miliSeconds < 999) {
+        miliSeconds += 10;
+        sMiliseconds = miliSeconds.toString();
+      } else {
+        incrementSeconds();
+      }
+
+      if (miliSeconds < 10) {
+        sMiliseconds = '0$sMiliseconds';
+      }
     });
   }
 
   void incrementSeconds() {
     setState(() {
       if (seconds < 59) {
+        miliSeconds = 0;
+        sMiliseconds = '00';
         seconds++;
         sSeconds = seconds.toString();
       } else {
@@ -50,40 +66,24 @@ class _HomeState extends State<Home> {
   void incrementMinutes() {
     setState(() {
       if (minutes < 59) {
+        miliSeconds = 0;
         seconds = 0;
-        sSeconds = '00';
+        sSeconds = '0';
+        sMiliseconds = '0';
+
         minutes++;
         sMinutes = sMinutes.toString();
       } else {
-        incrementHour();
+        miliSeconds = 0;
+        seconds = 0;
+        minutes = 0;
+        sMiliseconds = '00';
+        sSeconds = '00';
+        sMinutes = '00';
       }
 
-      if (seconds < 10) {
+      if (minutes < 10) {
         sMinutes = '0$sMinutes';
-      }
-    });
-  }
-
-  void incrementHour() {
-    setState(() {
-      if (hour < 59) {
-        seconds = 0;
-        minutes = 0;
-        sMinutes = '00';
-        sSeconds = '00';
-        hour++;
-        sHour = sHour.toString();
-      } else {
-        minutes = 0;
-        seconds = 0;
-        minutes = 0;
-        sMinutes = '00';
-        sSeconds = '00';
-        sHour = '00';
-      }
-
-      if (hour < 10) {
-        sHour = '0$sHour';
       }
     });
   }
@@ -91,10 +91,10 @@ class _HomeState extends State<Home> {
   void resetStopwatch() {
     setState(() {
       timer?.cancel();
-      hour = 0;
+      miliSeconds = 0;
       seconds = 0;
       minutes = 0;
-      sHour = '00';
+      sMiliseconds = '00';
       sSeconds = '00';
       sMinutes = '00';
       isStarted = false;
@@ -156,14 +156,6 @@ class _HomeState extends State<Home> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         TimerContainer(
-                          text: sHour,
-                        ),
-                        const Text(
-                          ':',
-                          style: TextStyle(
-                              fontSize: 25, fontWeight: FontWeight.bold),
-                        ),
-                        TimerContainer(
                           text: sMinutes,
                         ),
                         const Text(
@@ -173,6 +165,14 @@ class _HomeState extends State<Home> {
                         ),
                         TimerContainer(
                           text: sSeconds,
+                        ),
+                        const Text(
+                          ':',
+                          style: TextStyle(
+                              fontSize: 25, fontWeight: FontWeight.bold),
+                        ),
+                        TimerContainer(
+                          text: sMiliseconds,
                         ),
                       ],
                     ),
@@ -185,19 +185,13 @@ class _HomeState extends State<Home> {
                         ControlButton(
                           text: isStarted ? 'Pause' : 'Start',
                           onPressed: isStarted
-                              ? () {
-                                  pauseStopwatch();
-                                }
-                              : () {
-                                  startStopwatch();
-                                },
+                              ? () => pauseStopwatch()
+                              : () => startStopwatch(),
                           logo: isStarted ? Icons.pause : Icons.play_arrow,
                         ),
                         ControlButton(
                           text: 'Reset',
-                          onPressed: () {
-                            resetStopwatch();
-                          },
+                          onPressed: () => resetStopwatch(),
                         ),
                       ],
                     ),
@@ -215,7 +209,7 @@ class _HomeState extends State<Home> {
                   ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
